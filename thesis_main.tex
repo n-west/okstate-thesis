@@ -1,0 +1,74 @@
+%&latex
+\documentclass[12pt]{osuthesis}
+\usepackage{graphicx}
+%\usepackage[draft]{graphicx}
+%\usepackage{subfigure}
+%\usepackage{verbatim}
+%\usepackage{enumerate}
+%\usepackage{amsmath}
+%\usepackage{amscd}
+%\usepackage{array}
+%\usepackage{color}
+%\usepackage{amsxtra}
+%\usepackage{amstext}
+%\usepackage{amssymb}
+%\usepackage{hyperref}
+%\usepackage{mathrsfs}
+%\usepackage{latexsym}
+%\usepackage{newlfont}
+%\usepackage{indentfirst,color}
+%\usepackage{doublespace}
+%
+\suppressfloats %\nofiles
+
+\title{FULL TITLE IN ALL CAPS}
+\formattedtitle{FULL TITLE IN ALL CAPS}
+
+\author{YOUR NAME IN ALL CAPS}
+
+\degreeone{\ssp Bachelor of Arts/Science in Your Area \\
+        Your University\\
+        City, State, Country\\
+        YEAR}
+\degreetwo{}
+\degreesought{MASTER OF ARTS/SCIENCE}
+ \degreedate{December/May/July/August, YEAR}
+\majorfield{Major Area}
+%
+\begin{document}
+\maketitle
+\makecopyright
+\makeapproval{5} % Number denotes total number of required signatures, Committee+Dean
+\begin{acknowledge}
+\input{acknowledge}
+\end{acknowledge}
+\tableofcontents
+\listoftables
+\listoffigures
+%\msp    %========  single space text.
+        %========  For the final version, this command should not be used.
+
+%\makeapproval{5}\addtocounter{placeholder}{-1}    %% Comment this in the final copy. This is for electronic copy
+%\begin{nomenclature}
+%	\input{notation}
+%\end{nomenclature}
+
+%====================== main  body of the dissertation ==========================
+\pagenumbering{arabic}\setcounter{page}{1}
+\input{intro}
+\input{chapter2}
+\input{chapter3}
+\input{conclusions}
+%
+\nocite{*} % Use to exclude specific citations from *.bib file
+\bibliography{references}
+\bibliographystyle{ieeetr}%{alpha}%{ieeetr}%%
+\appendix
+\input{appendix}
+\input{vita}
+%       \pagestyle{empty}
+ \begin{abstract}{Your Name}{Master of Science}{My Major} % Creates abstract
+    \input{abstract}
+ \end{abstract}
+
+\end{document}
