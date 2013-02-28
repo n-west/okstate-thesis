@@ -1,0 +1,6 @@
+
+*.aux
+*.div
+*.lo[fgt]
+*.toc
+*.swp
