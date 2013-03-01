@@ -306,7 +306,7 @@
    \renewcommand{\thepage}{\roman{page}}
    \begin{center}
      \vspace*{1in}\par
-     \parbox{\widertitlewidth}{\centering \dsp \sc \@title}
+     \parbox{\widertitlewidth}{\centering \dsp \Large\sc \@title}
      \par\vfill\par
      \if@onedegree
        \parbox{\titlewidth}{\centering \dsp By \linebreak\linebreak %

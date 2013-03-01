@@ -4,3 +4,5 @@
 *.lo[fgt]
 *.toc
 *.swp
+*.bbl
+*.blg
