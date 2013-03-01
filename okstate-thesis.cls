@@ -309,8 +309,9 @@
      \parbox{\widertitlewidth}{\centering \dsp \sc \@title}
      \par\vfill\par
      \if@onedegree
-       \parbox{\titlewidth}{\centering \dsp By \par {\sc \@author} %
-               \@degreeone \par \ssp}
+       \parbox{\titlewidth}{\centering \dsp By \linebreak\linebreak %
+                 {\sc \@author} \linebreak\linebreak 
+               \ssp \@degreeone \par \ssp}
      \else
        \parbox{\titlewidth}{\centering \dsp By \linebreak\linebreak %
         {\sc \@author} \linebreak\linebreak %
