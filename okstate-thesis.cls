@@ -140,7 +140,7 @@
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{okstate-thesis}
-              [2013/02/28 v3.0
+              [2013/02/28 v3.1
  Oklahoma State University Thesis/Dissertation document class]
 \newcommand\@ptsize{}
 \newif\if@restonecol
@@ -203,8 +203,6 @@
 \def\msp{\def\baselinestretch{1.3}\large\normalsize}
 \def\dsp{\def\baselinestretch{1.67}\large\normalsize}
 
-% The formatted title
-
 % The full (unabbreviated) name of the degree
 \def\degreesought#1{\gdef\@degreesought{#1}}
 
@@ -241,6 +239,9 @@
 
 % Define a placeholder counter for roman-numbered pages.
 \newcounter{placeholder}
+\def\frontmatter{\cleardoublepage\pagenumbering{roman}}
+\def\mainmatter{\pagenumbering{arabic}}
+\def\backmatter{\if@openright\cleardoublepage\else\clearpage}
 
 % Define inverted pyramid title paragraph shape
 \newcommand{\invertedpyramid}{\parshape=3 0in 4in 0.25in 3.5in 0.5in 3in}
@@ -302,8 +303,7 @@
 \newcommand{\maketitle}% Create coverpage layout.
   {\newpage \setlength{\partopsep}{0in} \setlength{\topskip}{0in}
    \thispagestyle{empty}
-    \setcounter{page}{1}
-   \renewcommand{\thepage}{\roman{page}}
+   % \setcounter{page}{1}
    \begin{center}
      \vspace*{1in}\par
      \parbox{\widertitlewidth}{\centering \dsp \Large\sc \@title}
@@ -330,7 +330,6 @@
    \end{center}
    \par\ssp\vspace*{0.875in}\par\dsp% 2 inch nominal bottom margin
    \newpage
-   \renewcommand{\thepage}{\arabic{page}}
    }
 
 % \maketitle outputs the complete titlepage.
@@ -343,13 +342,11 @@
 % ******************  COPYRIGHT PAGE  ********************
 % ********************************************************
 
-% The copyright page was removed and we're forced to hand over
-% our copyright to some third-party. WTF?
+% The copyright page was removed
 % Nathan is leaving this for historical reasons.
 % \newcommand{\makecopyright}% Create coverpage layout.
 %   {\newpage
 %    \thispagestyle{empty}
-%    \renewcommand{\thepage}{\roman{page}}
 %    \vspace*{\fill}\par
 %    \begin{center}\dsp
 %      COPYRIGHT \copyright\\
@@ -359,7 +356,6 @@
 %    \end{center}
 %    \par\vspace*{\fill}\dsp
 %    \newpage
-%    \renewcommand{\thepage}{\arabic{page}}
 %    }
 % 
 % \maketitle outputs the complete titlepage.
@@ -386,7 +382,6 @@
 \def\makeSigLine#1{\mbox{} \\ \mbox{#1} \\ \hline\\}
 \def\makeapproval#1{% Create approval page layout.
    \newpage \setlength{\partopsep}{0in} \setlength{\topskip}{0in}
-   \renewcommand{\thepage}{\roman{page}}
    \begin{center}\msp  % \msp adjusts the spacing between lines
      \vspace*{1in}\par
      \parbox{\widertitlewidth}{\centering \dsp \sc \@title}
@@ -413,7 +408,6 @@
      \end{center}
   \par\ssp\vspace*{1.8125in}\par\dsp% 4 inch nominal bottom margin
   \newpage
-  \renewcommand{\thepage}{\arabic{page}}
   }
 % \makeapproval outputs the complete approval page
 
@@ -426,12 +420,11 @@
 % ********************************************************
 
 \newenvironment{preface}
-  {\renewcommand{\thepage}{\roman{page}}
+  {
     {\centering \ssp \rule{0in}{1in} \par
        PREFACE \par
        \vspace*{0.25in} \par \dsp}
   }
-  {\newpage\renewcommand{\thepage}{\arabic{page}}}
 
 % ********************************************************
 % ********************************************************
@@ -442,30 +435,28 @@
 % ********************************************************
 
 \newenvironment{acknowledge}
-  {\newpage \renewcommand{\thepage}{\roman{page}}
+  {
      {\centering \ssp \rule{0in}{1in} \par
         ACKNOWLEDGMENTS \par
         \vspace*{0.25in} \par \dsp}
   }
-  {\newpage\renewcommand{\thepage}{\arabic{page}}}
 
 % ********************************************************
 %******************** Nomenclature ***********************
 % ********************************************************
 \newenvironment{nomenclature}
-  {\newpage \renewcommand{\thepage}{\roman{page}}
+  {
      {\centering \ssp \rule{0in}{1in} \par
         NOMENCLATURE \par
         \vspace*{0.25in} \par \dsp}
   }
-  {\newpage\renewcommand{\thepage}{\arabic{page}}}
 
 % ********************************************************
 % *******************  ABSTRACT PAGE  ********************
 % ********************************************************
 
 \newenvironment{abstract}
-    {\newpage \renewcommand{\thepage}{\roman{page}}
+    {
         {\dsp \parindent=0in
         Name:~~\@author \par
         Date of Degree:~~\@degreedate \par
@@ -479,7 +470,6 @@
         Major Field:~~\@majorfield \par}
         \ssp \parindent=0in \parskip=1em
     }
-    {\newpage\renewcommand{\thepage}{\arabic{page}}}
 
 \newcommand{\abstractitem}[1]{\par \hangindent=0.375in \hangafter=1 \parindent=0in #1~}
 
@@ -808,12 +798,9 @@
        \contentsname \par \dsp
        \cname \hfill \pname
        \par \dsp}
-    \renewcommand{\thepage}{\roman{page} \par
-    }
     \@starttoc{toc}
     \newpage
     \setcounter{placeholder}{\value{page}}
-    \pagenumbering{arabic}   % resets page counter to 1, arabic format
     }
 % ********************************************************
 % ********************************************************
@@ -870,7 +857,6 @@
        \listfigurename \par
        \fname \hfill \pname
        \rule{0in}{0.25in} \par \dsp}
-    \renewcommand{\thepage}{\roman{page}}
     \setcounter{page}{\value{placeholder}}
     \@starttoc{lof} \newpage
     \setcounter{placeholder}{\value{page}}
@@ -887,12 +873,10 @@
        \listtablename \par
        \tname \hfill \pname
        \rule{0in}{0.25in} \par \dsp}
-    \renewcommand{\thepage}{\roman{page}}
     \setcounter{page}{\value{placeholder}}
     \@starttoc{lot} \newpage
     \setcounter{placeholder}{\value{page}}
     \pagenumbering{arabic}
-\renewcommand{\thepage}{\arabic{page}}
     }
 \let\l@table\l@figure
 \newdimen\bibindent
