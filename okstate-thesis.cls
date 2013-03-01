@@ -139,7 +139,7 @@
 
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{osuthesis}
+\ProvidesClass{okstate-thesis}
               [2013/02/28 v3.0
  Oklahoma State University Thesis/Dissertation document class]
 \newcommand\@ptsize{}
@@ -204,7 +204,6 @@
 \def\dsp{\def\baselinestretch{1.67}\large\normalsize}
 
 % The formatted title
-\def\formattedtitle#1{\gdef\@formattedtitle{#1}}
 
 % The full (unabbreviated) name of the degree
 \def\degreesought#1{\gdef\@degreesought{#1}}
@@ -272,7 +271,8 @@
 \newlength{\widertitlewidth} % defines wider width for title page text
 \setlength{\widertitlewidth}{5in}
 
-%========================================= %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    Page Problem Setup
+%========================================= 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    Page Problem Setup
 
 \setlength{\textheight}{9in}
 
@@ -304,27 +304,27 @@
    \thispagestyle{empty}
     \setcounter{page}{1}
    \renewcommand{\thepage}{\roman{page}}
-   \begin{center}\ssp
+   \begin{center}
      \vspace*{1in}\par
-     \parbox{\widertitlewidth}{\centering \dsp \@formattedtitle}
+     \parbox{\widertitlewidth}{\centering \dsp \sc \@title}
      \par\vfill\par
      \if@onedegree
-       \parbox{\titlewidth}{\centering \dsp By \par \@author %
+       \parbox{\titlewidth}{\centering \dsp By \par {\sc \@author} %
                \@degreeone \par \ssp}
      \else
        \parbox{\titlewidth}{\centering \dsp By \linebreak\linebreak %
-       \@author \linebreak\linebreak %
-       \@degreeone \linebreak\linebreak %
-       \@degreetwo}
+        {\sc \@author} \linebreak\linebreak %
+       \ssp \@degreeone \linebreak\linebreak %
+       \ssp \@degreetwo}
      \fi
-     \par\vfill\par
+     \par\vfill\par\ssp
      Submitted to the Faculty of the\\
      Graduate College of\\
      Oklahoma State University\\
      in partial fulfillment of\\
      the requirements for\\
      the Degree of\\
-     \@degreesought\\
+     \sc\@degreesought\\
      \@degreedate
    \end{center}
    \par\ssp\vspace*{0.875in}\par\dsp% 2 inch nominal bottom margin
@@ -342,22 +342,25 @@
 % ******************  COPYRIGHT PAGE  ********************
 % ********************************************************
 
-\newcommand{\makecopyright}% Create coverpage layout.
-  {\newpage
-   \thispagestyle{empty}
-   \renewcommand{\thepage}{\roman{page}}
-   \vspace*{\fill}\par
-   \begin{center}\dsp
-     COPYRIGHT \copyright\\
-     By\\
-     \@author\\
-     \@degreedate
-   \end{center}
-   \par\vspace*{\fill}\dsp
-   \newpage
-   \renewcommand{\thepage}{\arabic{page}}
-   }
-
+% The copyright page was removed and we're forced to hand over
+% our copyright to some third-party. WTF?
+% Nathan is leaving this for historical reasons.
+% \newcommand{\makecopyright}% Create coverpage layout.
+%   {\newpage
+%    \thispagestyle{empty}
+%    \renewcommand{\thepage}{\roman{page}}
+%    \vspace*{\fill}\par
+%    \begin{center}\dsp
+%      COPYRIGHT \copyright\\
+%      By\\
+%      \@author\\
+%      \@degreedate
+%    \end{center}
+%    \par\vspace*{\fill}\dsp
+%    \newpage
+%    \renewcommand{\thepage}{\arabic{page}}
+%    }
+% 
 % \maketitle outputs the complete titlepage.
 
 % ********************************************************
@@ -366,49 +369,46 @@
 % ********************************************************
 % *******************  APPROVAL PAGE  ********************
 % ********************************************************
-\newcommand{\makeapproval}[1]% Create approval page layout.
-  {\newpage \setlength{\partopsep}{0in} \setlength{\topskip}{0in}
+
+%%%% Note from Nathan %%%%%
+% This was cleaned up quite a bit and is now more user-friendly
+% But this code still sucks
+% Ideally it's something like
+% \committee{adviser name}{chair name}{chair name}{chair name}
+% But I wasted a lot of time (and failed) trying to do that
+\def\adviser#1{\gdef\@adviser{#1}}
+\def\chairOne#1{\gdef\@chairOne{#1}}
+\def\chairTwo#1{\gdef\@chairTwo{#1}}
+\def\chairThree#1{\gdef\@chairThree{#1}}
+\def\chairFour#1{\gdef\@chairFour{#1}}
+
+\def\makeSigLine#1{\mbox{} \\ \mbox{#1} \\ \hline\\}
+\def\makeapproval#1{% Create approval page layout.
+   \newpage \setlength{\partopsep}{0in} \setlength{\topskip}{0in}
    \renewcommand{\thepage}{\roman{page}}
    \begin{center}\msp  % \msp adjusts the spacing between lines
      \vspace*{1in}\par
-     \parbox{\widertitlewidth}{\centering \dsp \@formattedtitle}
+     \parbox{\widertitlewidth}{\centering \dsp \sc \@title}
      \par\vfill\par
      \parbox{\titlewidth}{Thesis Approved:}\par  
-    \ifnum #1=4 % Three committee members
        \parbox{\titlewidth}{\centering %
          \begin{tabular}{@{}c@{}}  % @{} suppresses leading and trailing spaces
-           \rule{\titlewidth}{0in} \\ \mbox{} \\ \mbox{} \\ \hline  % Sets width of sig. lines
-           Thesis Advisor \\ \mbox{} \\ \mbox{} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{} \\ \hline
-           Dean of the Graduate College
+            \rule{\titlewidth}{0in} \\  % Sets width of sig. lines
+            \makeSigLine{\@adviser} % This is your adviser's name
+            Thesis Advisor \\ 
+            \ifnum #1>1
+                \makeSigLine{\@chairOne}
+            \ifnum#1>2
+                \makeSigLine{\@chairTwo}
+            \ifnum#1>3
+                \makeSigLine{\@chairThree}
+            \ifnum#1>4
+                \makeSigLine{\@chairFour}
+            \fi\fi\fi\fi
+            
          \end{tabular}}
          \vspace*{1in}
-     \fi
-     \ifnum #1=5 %Four committee members
-       \parbox{\titlewidth}{\centering %
-         \begin{tabular}{@{}c@{}}
-         % Remove names if creating signature page
-           \rule{\titlewidth}{0in} \\ \mbox{} \\ \mbox{Thesis Advisor’s Name Here} \\ \hline  % Sets width of sig. lines
-           Thesis Advisor \\ \mbox{} \\ \mbox{Committee Member Name Here} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{Committee Member Name Here} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{Committee Member Name Here} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{Grad. College Dean's Name Here} \\ \hline
-           {\ssp Dean of the Graduate College}
-         \end{tabular}}
-     \fi
-     \ifnum #1=6 %Five committee members
-       \parbox{\titlewidth}{\centering %
-         \begin{tabular}{@{}c@{}}
-           \rule{\titlewidth}{0in} \\ \mbox{} \\ \mbox{} \\ \hline  % Sets width of sig. lines
-           Thesis advisor \\ \mbox{} \\ \mbox{} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{} \\ \hline
-           \mbox{} \\ \mbox{} \\ \mbox{} \\ \hline
-           Dean of the Graduate College
-         \end{tabular}}
-     \fi
+
      \end{center}
   \par\ssp\vspace*{1.8125in}\par\dsp% 4 inch nominal bottom margin
   \newpage
@@ -437,7 +437,7 @@
 
 
 % ********************************************************
-% ***************  ACKNOWLEDGMENTS PAGE  ****************
+% ***************  ACKNOWLEDGMENTS PAGE  *****************
 % ********************************************************
 
 \newenvironment{acknowledge}
@@ -449,7 +449,7 @@
   {\newpage\renewcommand{\thepage}{\arabic{page}}}
 
 % ********************************************************
-%*****************************Nomenclature
+%******************** Nomenclature ***********************
 % ********************************************************
 \newenvironment{nomenclature}
   {\newpage \renewcommand{\thepage}{\roman{page}}
@@ -463,27 +463,22 @@
 % *******************  ABSTRACT PAGE  ********************
 % ********************************************************
 
-\newenvironment{abstract}[3]{%
-        \newpage
-        \addtocounter{page}{-1}
-       \thispagestyle{empty}
+\newenvironment{abstract}
+    {\newpage \renewcommand{\thepage}{\roman{page}}
         {\dsp \parindent=0in
-        Name:~~#1 \hfill Date of Degree:~~\@degreedate \par
-        Institution:~~Oklahoma State University \hfill %
-          Location:~~Stillwater, Oklahoma \par
-        %
+        Name:~~\@author \par
+        Date of Degree:~~\@degreedate \par
+ 
         \settowidth{\mylengtha}{Title of Study:~~}
         \setlength{\mylengthb}{\textwidth}
         \addtolength{\mylengthb}{-\mylengtha}
-        \mbox{Title of Study:~~\parbox[t]{\mylengthb}{\ssp \@title \par\null}}
+        \mbox{Title of Study:~~\parbox[t]{\mylengthb}{\ssp \sc\@title \par\null}}
            \par
         %
-        Pages in Study:~~\thepage \hfill Candidate for the Degree of #2 \par
-        Major Field:~~#3 \par
-        } \ssp \parindent=0in \parskip=1em
-   \thispagestyle{empty}
-           }
-        {\par \parskip=0in \vfill \par ADVISOR'S APPROVAL:~~\hrulefill}
+        Major Field:~~\@majorfield \par}
+        \ssp \parindent=0in \parskip=1em
+    }
+    {\newpage\renewcommand{\thepage}{\arabic{page}}}
 
 \newcommand{\abstractitem}[1]{\par \hangindent=0.375in \hangafter=1 \parindent=0in #1~}
 
@@ -845,17 +840,17 @@
     \begingroup
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
-      \leavevmode \bfseries
+      \leavevmode %\bfseries
       \advance\leftskip\@tempdima
       \hskip -\leftskip
-      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      #1\nobreak\dotfill \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
       \penalty\@highpenalty
     \endgroup
   \fi}
 
   \newcommand*\l@page[2]{%
   \par \dsp
-       \cname \hfill \pname
+       \cname  \pname
        \par \dsp
   \fi}
 \newcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
@@ -999,4 +994,4 @@
 
 \endinput
 %%
-%% End of file `report.cls'.
+%% End of file `osuthesis.cls'.

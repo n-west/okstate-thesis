@@ -1,5 +1,5 @@
 %&latex
-\documentclass[12pt]{osuthesis}
+\documentclass[12pt]{okstate-thesis}
 \usepackage{graphicx}
 %\usepackage[draft]{graphicx}
 %\usepackage{subfigure}
@@ -21,27 +21,38 @@
 %
 \suppressfloats %\nofiles
 
-\title{FULL TITLE IN ALL CAPS}
-\formattedtitle{FULL TITLE IN ALL CAPS}
+\title{Phase Dithered Watermarking for Physical Layer Authentication}
 
-\author{YOUR NAME IN ALL CAPS}
+\author{Nathan West}
 
-\degreeone{\ssp Bachelor of Arts/Science in Your Area \\
-        Your University\\
-        City, State, Country\\
-        YEAR}
-\degreetwo{}
-\degreesought{MASTER OF ARTS/SCIENCE}
- \degreedate{December/May/July/August, YEAR}
-\majorfield{Major Area}
+\degreeone{Bachelor of Science in Electrical Engineering \\
+        Oklahoma Christian University\\
+        Edmond, OK\\
+        2011}
+\degreetwo{Bachelor of Nothing in Foo\\
+        Prestigious University\\
+        My head, Universe\\
+        2012}
+\degreesought{Master of Science}
+\degreedate{May, 2013}
+\majorfield{Electrical Engineering}
+\adviser{George Scheets}
+\chairOne{Keith Teague}
+\chairTwo{Jim West}
+%\chairThree{name 3}
+%\chairFour{name}
+% If you've got more you're screwed anyway, but you can read the class file
+% to figure it out.
 %
 \begin{document}
 \maketitle
-\makecopyright
-\makeapproval{5} % Number denotes total number of required signatures, Committee+Dean
+\makeapproval{3} % Number denotes total number of required signatures (max 5)
 \begin{acknowledge}
-\input{acknowledge}
+    \input{acknowledge}
 \end{acknowledge}
+\begin{abstract} % Creates abstract
+    \input{abstract}
+\end{abstract}
 \tableofcontents
 \listoftables
 \listoffigures
@@ -54,21 +65,17 @@
 %\end{nomenclature}
 
 %====================== main  body of the dissertation ==========================
-\pagenumbering{arabic}\setcounter{page}{1}
-\input{intro}
-\input{chapter2}
-\input{chapter3}
-\input{conclusions}
+\chapter{Oklahoma State University ECEN}
+\input{ecen_welcome}
+\chapter{ECEN Graduate Program}
+\input{ecen_grad}
 %
 \nocite{*} % Use to exclude specific citations from *.bib file
-\bibliography{references}
+\bibliography{communications}
 \bibliographystyle{ieeetr}%{alpha}%{ieeetr}%%
 \appendix
 \input{appendix}
 \input{vita}
 %       \pagestyle{empty}
- \begin{abstract}{Your Name}{Master of Science}{My Major} % Creates abstract
-    \input{abstract}
- \end{abstract}
 
 \end{document}
